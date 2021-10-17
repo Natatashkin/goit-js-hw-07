@@ -40,10 +40,10 @@ function onModalOpen(e) {
     if (e.key === 'Escape') {
       instance.close(() => {
         window.removeEventListener('keydown', onEscPress);
-        // я сняла слушателя события, но он почемуто в событие Escape считает закрытия по клику мышкой О_о. Не понимаю почему
-        console.log(e.key);
       });
     }
+    // я сняла слушателя события, но он почемуто в событие Escape считает закрытия по клику мышкой О_о. Не понимаю почему
+    console.log(e.key);
   }
 }
 
