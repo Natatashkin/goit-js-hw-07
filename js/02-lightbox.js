@@ -1,7 +1,7 @@
 import { galleryItems } from './gallery-items.js';
 // Change code below this line
 
-const gallery = document.querySelector('.js-gallery');
+const gallery = document.querySelector('.gallery');
 const galleryImages = createGalleryItems(galleryItems);
 gallery.addEventListener('click', onModalOpen);
 
@@ -20,15 +20,21 @@ gallery.insertAdjacentHTML('beforeend', galleryImages);
 
 function onModalOpen(e) {
   e.preventDefault();
+  console.log(e.target);
+  openLightbox();
+}
 
-  const url = getImageUrl(e.target);
-
-  let gallery = new SimpleLightbox('.gallery a', {
+function openLightbox() {
+  const lightbox = new SimpleLightbox('.gallery a', {
     captionsData: 'alt',
     captionDelay: 250,
   });
-}
-
-function getImageUrl(image) {
-  return image.dataset.source;
+  // перегружаем модалку, чтоб не залипал hover галереии. Стили залипали. С этим костылём не залипает
+  lightbox.on('closed.simplelightbox', () => {
+    lightbox.refresh();
+  });
+  // иногда залипала одна из картинок при перелистываниикартинок в модалке. Теперь не залипает
+  lightbox.on('change.simplelightbox', () => {
+    modal.refresh();
+  });
 }
