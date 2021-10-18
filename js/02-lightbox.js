@@ -33,8 +33,8 @@ function openLightbox() {
   lightbox.on('closed.simplelightbox', () => {
     lightbox.refresh();
   });
-  // иногда залипала одна из картинок при перелистываниикартинок в модалке. Теперь не залипает
-  lightbox.on('change.simplelightbox', () => {
-    modal.refresh();
-  });
+  //   // иногда залипала одна из картинок при перелистываниикартинок в модалке. Теперь не залипает
+  //   lightbox.on('change.simplelightbox', () => {
+  //     lightbox.refresh();
+  //   });
 }
