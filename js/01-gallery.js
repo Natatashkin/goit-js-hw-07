@@ -38,18 +38,18 @@ function onModalOpen(e) {
   const instance = basicLightbox.create(
     `<img src="${url}" width="800" height="600">`,
   );
-
+  // вешаем слушателей на клик и на esc при октрытии модалки
   instance.show(() => {
     window.addEventListener('keydown', onEscPress);
     console.log('слушатель повешен на клаву');
     window.addEventListener('click', onLightBoxClick);
     console.log('слушатель повешен на клик по модалке');
   });
-
+  // обработчик закрытия по клику
   function onLightBoxClick() {
     removeListeners();
   }
-
+  // обработчик события клавитатуры
   function onEscPress(e) {
     if (e.key === 'Escape') {
       instance.close(() => {
@@ -57,7 +57,7 @@ function onModalOpen(e) {
       });
     }
   }
-
+  // удаляем все слушатели при закрытии модалки
   function removeListeners() {
     window.removeEventListener('keydown', onEscPress);
     console.log('слушатель снят на Escape');
