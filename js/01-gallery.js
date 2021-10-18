@@ -29,7 +29,7 @@ function getImageUrl(image) {
   return image.dataset.source;
 }
 
-// вариант с модалкой 1 - рабочий, все слушатели снимаются (см.консоль)
+// вариант с модалкой  - 1 рабочий, все слушатели снимаются (по идее)
 function onModalOpen(e) {
   e.preventDefault();
 
@@ -40,29 +40,22 @@ function onModalOpen(e) {
   );
   // вешаем слушателей на клик и на esc при октрытии модалки
   instance.show(() => {
-    window.addEventListener('keydown', onEscPress);
-    console.log('слушатель повешен на клаву');
-    window.addEventListener('click', onLightBoxClick);
-    console.log('слушатель повешен на клик по модалке');
+    window.addEventListener('keydown', eventHandler, { once: true });
+    window.addEventListener('click', eventHandler, { once: true });
   });
-  // обработчик закрытия по клику
-  function onLightBoxClick() {
-    removeListeners();
-  }
-  // обработчик события клавитатуры
-  function onEscPress(e) {
-    if (e.key === 'Escape') {
-      instance.close(() => {
-        removeListeners();
-      });
+
+  function eventHandler(e) {
+    if (e.type === 'keydown') {
+      if (e.key === 'Escape') {
+        instance.close();
+        window.removeEventListener('click', eventHandler, { once: true });
+        return;
+      }
     }
-  }
-  // удаляем все слушатели при закрытии модалки
-  function removeListeners() {
-    window.removeEventListener('keydown', onEscPress);
-    console.log('слушатель снят на Escape');
-    window.removeEventListener('click', onLightBoxClick);
-    console.log('слушатель снят на клик');
+    if (e.type === 'click') {
+      window.removeEventListener('keydown', eventHandler, { once: true });
+      return;
+    }
   }
 }
 
@@ -76,11 +69,12 @@ function onModalOpen(e) {
 //     `<img src="${url}" width="800" height="600">`,
 //     {
 //       onShow: instance => {
-//         window.addEventListener('keydown', onEscPress, { once: true });
-//         function onEscPress(e) {
+//         const options = { once: true };
+//         window.addEventListener('keydown', onEventHandler, options);
+//         function onEventHandler(e) {
 //           if (e.key === 'Escape') {
 //             instance.close();
-//             console.log('сняли слушателя');
+//             return;
 //           }
 //         }
 //       },
