@@ -29,21 +29,34 @@ function onModalOpen(e) {
 
   const url = getImageUrl(e.target);
 
-  const instance = basicLightbox.create(`
-    <img src="${url}" width="800" height="600">`);
+  const instance = basicLightbox.create(
+    `<img src="${url}" width="800" height="600">`,
+  );
 
   instance.show(() => {
     window.addEventListener('keydown', onEscPress);
+    // console.log('слушатель повешен на клаву');
+    window.addEventListener('click', onLightBoxClick);
+    // console.log('слушатель повешен на клик по модалке');
   });
+
+  function onLightBoxClick() {
+    removeListeners();
+  }
 
   function onEscPress(e) {
     if (e.key === 'Escape') {
       instance.close(() => {
-        window.removeEventListener('keydown', onEscPress);
+        removeListeners();
       });
     }
-    // я сняла слушателя события, но он почемуто в событие Escape считает закрытия по клику мышкой О_о. Не понимаю почему где-бы я консоль лог не прописала
-    console.log(e.key);
+  }
+
+  function removeListeners() {
+    window.removeEventListener('keydown', onEscPress);
+    // console.log('слушатель снят на Escape');
+    window.removeEventListener('click', onLightBoxClick);
+    // console.log('слушатель снят на клик');
   }
 }
 
