@@ -3,34 +3,22 @@ import { galleryItems } from './gallery-items.js';
 
 const gallery = document.querySelector('.gallery');
 const galleryImages = createGalleryItems(galleryItems);
-gallery.addEventListener('click', onModalOpen);
+// gallery.addEventListener('click', onModalOpen);
 
 function createGalleryItems(array) {
   return array
     .map(
       ({ preview, original, description }) =>
-        `<a class="gallery__item" href=${original}>
+        `<li class="item"><a class="gallery__item" style='display: inline-block; height: 240px' href=${original}>
   <img class="gallery__image" src=${preview} alt="${description}" />
-</a>`,
+</a></li>`,
     )
     .join('');
 }
 
 gallery.insertAdjacentHTML('beforeend', galleryImages);
 
-function onModalOpen(e) {
-  e.preventDefault();
-  console.log(e.target);
-  openLightbox();
-}
-
-function openLightbox() {
-  const lightbox = new SimpleLightbox('.gallery a', {
-    captionsData: 'alt',
-    captionDelay: 250,
-  });
-  // перегружаем модалку, чтоб не залипал hover галереии. Стили залипали. С этим костылём не залипает
-  lightbox.on('closed.simplelightbox', () => {
-    lightbox.refresh();
-  });
-}
+const lightbox = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionDelay: 250,
+});
